@@ -5,7 +5,7 @@ namespace ClassicGames.DAL
 {
     public interface IGameRepository
     {
-        Game UpsertBook(Game game);
+        Game UpsertGame(Game game);
         IEnumerable<Game> GetAll();
         void Delete(int Id);
         Game GetById(int? Id);

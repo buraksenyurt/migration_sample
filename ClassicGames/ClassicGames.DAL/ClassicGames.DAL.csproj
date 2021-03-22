@@ -79,8 +79,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClassicGamesDBModule.cs" />
     <Compile Include="CommodoreDBContext.cs" />
     <Compile Include="CommodoreDBInitializer.cs" />
+    <Compile Include="GameRepository.cs" />
+    <Compile Include="IGameRepository.cs" />
+    <Compile Include="ImageLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -93,8 +97,10 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Assets\" />
+    <EmbeddedResource Include="Assets\paper_boy.png" />
+    <EmbeddedResource Include="Assets\the_last_ninja.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
