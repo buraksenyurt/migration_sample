@@ -18,6 +18,7 @@ namespace ClassicGames.DAL
                    Summary="The Last Ninja is an action-adventure game originally developed and published by System 3 in 1987 for the Commodore 64. Other format conversions...",
                    PublishDate=new DateTime(1987,1,1),
                    Developers="System 3, Eclipse Software Design",
+                   Photo=ImageLoader.GetGameCover("the_last_ninga.jpg"),
                    Reviews=new List<GameReview>
                    {
                         new GameReview
@@ -40,6 +41,7 @@ namespace ClassicGames.DAL
                    Summary="Paperboy is an arcade game developed and published by Atari Games. It was released in North America in April 1985. The player takes the role of a paperboy who delivers a fictional newspaper called 'The Daily Sun' along a suburban street on his bicycle...",
                    PublishDate=new DateTime(1984,1,1),
                    Developers=" Midway Games West Inc, Mindscape, Atari...",
+                   Photo=ImageLoader.GetGameCover("paper_boy.png"),
                    Reviews=new List<GameReview>
                    {
                         new GameReview
