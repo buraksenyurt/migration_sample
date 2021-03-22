@@ -6,6 +6,11 @@ Malum Net 5, .Net Framework dönemlerinden gelen bazı konuları artık içermiy
 
 ## ClassicGames
 
-.Net Framework 4.7.2'yi merkezine alan Solution.
+.Net Framework 4.7.2'yi merkezine alan Solution. _(Özellikle projelerin packages.config, csproj dosya içeriklerini takip edin)_
+
+- ClassicGames.Models: Model sınıfları olan Game ve GameReview tiplerini içerip, Newtonsoft'u referans eden Class Library türevidir.
+- ClassicGames.DAL: Data Access Layer rolünü üstlenen Class Library. Autofac _(IoC Container için)_, Serilog _(Loglama için)_ ve EntityFramework _(ORM entegrasyonu için)_ NuGet paketlerinin .Net Framework 4.7.2 için uyumlu olan sürümlerini kullanıyor. Oyun ve oyun yorumları ile ilgili gerekli CRUD operasyonlarını sağlayan bir kütüphane.
+- ClassicGames.WebClient: _Yazılacak_
+- ClassicGames.Dashboard: _Yazılacak_
 
 _Devam Edecek_
