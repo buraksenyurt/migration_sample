@@ -1,4 +1,5 @@
 ﻿using ClassicGames.Models;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -10,6 +11,8 @@ namespace ClassicGames.DAL
     {
         protected override void Seed(CommodoreDBContext context)
         {
+            Log.Warning("Db Seed operasyonu başlatılıyor");
+
             var a_few_games = new List<Game>
             {
                 new Game
