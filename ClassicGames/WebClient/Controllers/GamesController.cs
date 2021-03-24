@@ -7,7 +7,7 @@ namespace WebClient.Controllers
 {
     public class GamesController : Controller
     {
-        private IGameRepository _gamesRepository;
+        private readonly IGameRepository _gamesRepository;
 
         public GamesController(IGameRepository gamesRepository)
         {
