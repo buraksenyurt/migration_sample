@@ -21,7 +21,7 @@ namespace ClassicGames.DAL
                    Summary="The Last Ninja is an action-adventure game originally developed and published by System 3 in 1987 for the Commodore 64. Other format conversions...",
                    PublishDate=new DateTime(1987,1,1),
                    Developers="System 3, Eclipse Software Design",
-                   Photo=ImageLoader.GetGameCover("the_last_ninga.jpg"),
+                   Photo=ImageLoader.GetGameCover("the_last_ninja.jpg"),
                    Reviews=new List<GameReview>
                    {
                         new GameReview
