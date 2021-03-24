@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClassicGames.DAL", "Classic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassicGames.DAL", "ClassicGames.DAL\ClassicGames.DAL.csproj", "{CA7B6873-6FF8-453F-AB0C-BC3260CFC515}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ClassicGames.Web", "ClassicGames.Web", "{1BF7D282-4A08-4B95-A036-72EF428FEABB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebClient", "WebClient\WebClient.csproj", "{7EAF0D16-7D70-43DD-8466-3485C0E61491}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +49,18 @@ Global
 		{CA7B6873-6FF8-453F-AB0C-BC3260CFC515}.Release|x64.Build.0 = Release|Any CPU
 		{CA7B6873-6FF8-453F-AB0C-BC3260CFC515}.Release|x86.ActiveCfg = Release|Any CPU
 		{CA7B6873-6FF8-453F-AB0C-BC3260CFC515}.Release|x86.Build.0 = Release|Any CPU
+		{7EAF0D16-7D70-43DD-8466-3485C0E61491}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EAF0D16-7D70-43DD-8466-3485C0E61491}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EAF0D16-7D70-43DD-8466-3485C0E61491}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7EAF0D16-7D70-43DD-8466-3485C0E61491}.Debug|x64.Build.0 = Debug|Any CPU
+		{7EAF0D16-7D70-43DD-8466-3485C0E61491}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7EAF0D16-7D70-43DD-8466-3485C0E61491}.Debug|x86.Build.0 = Debug|Any CPU
+		{7EAF0D16-7D70-43DD-8466-3485C0E61491}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EAF0D16-7D70-43DD-8466-3485C0E61491}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EAF0D16-7D70-43DD-8466-3485C0E61491}.Release|x64.ActiveCfg = Release|Any CPU
+		{7EAF0D16-7D70-43DD-8466-3485C0E61491}.Release|x64.Build.0 = Release|Any CPU
+		{7EAF0D16-7D70-43DD-8466-3485C0E61491}.Release|x86.ActiveCfg = Release|Any CPU
+		{7EAF0D16-7D70-43DD-8466-3485C0E61491}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -52,6 +68,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{22475468-B8F7-4B37-8722-8F8EEF2176D6} = {1122D6E3-0A29-4563-AD55-B1240285C52B}
 		{CA7B6873-6FF8-453F-AB0C-BC3260CFC515} = {392C8A80-4973-42E9-A157-6D948085EA01}
+		{7EAF0D16-7D70-43DD-8466-3485C0E61491} = {1BF7D282-4A08-4B95-A036-72EF428FEABB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8B7C1B14-C5CE-4697-8538-064A61495C2A}
