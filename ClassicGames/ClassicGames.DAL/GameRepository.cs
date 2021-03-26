@@ -24,7 +24,7 @@ namespace ClassicGames.DAL
                 throw new DataException($"Üzgünüz. {id} numaralı oyunu bulamadık.");
 
             game.Reviews.Add(gameReview);
-            _dbContext.SaveChangesAsync();
+            _dbContext.SaveChanges();
             return gameReview;
         }
 
