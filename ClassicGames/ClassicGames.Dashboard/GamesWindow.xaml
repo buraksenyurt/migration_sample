@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClassicGames.Dashboard"
         mc:Ignorable="d"
-        Title="C64K Oyunları" Height="450" Width="1280">
+        Title="C64K Oyunları" Height="700" Width="1280">
     <Window.Resources>
         <local:ImageConverter x:Key="ImageConverter"/>
     </Window.Resources>
@@ -13,7 +13,7 @@
         <DataGrid Name="grdGames" AutoGenerateColumns="False"  Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="1200" RowEditEnding="grdGames_RowEditEnding" PreviewKeyDown="grdGames_PreviewKeyDown">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Width="20" Binding="{Binding Id, NotifyOnTargetUpdated=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-                <DataGridTemplateColumn Header="Unutulmaz Kapağı" Width="160" IsReadOnly="True">
+                <DataGridTemplateColumn Header="Unutulmaz Kapağı" Width="120" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image Stretch="UniformToFill" Name="Cover" Source="{Binding Photo, Converter= {StaticResource ImageConverter}, Mode=OneWay, ValidatesOnExceptions=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}"/>
@@ -21,8 +21,20 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>                
                 <DataGridTextColumn Header="Oyun" Width="200" Binding="{Binding Name, NotifyOnTargetUpdated=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn Header="Hakkında" Width="300" Binding="{Binding Summary, NotifyOnTargetUpdated=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn Header="Geliştiricileri" Width="200" Binding="{Binding Developers, NotifyOnTargetUpdated=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Hakkında" Width="250" Binding="{Binding Summary, NotifyOnTargetUpdated=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Geliştiricileri" Width="200" Binding="{Binding Developers, NotifyOnTargetUpdated=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTemplateColumn Header="Çıkış Tarihi">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -39,7 +51,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <Button Content="Yeni Fotoğraf Yükle" Height="20" Margin="5" Name="buttonBrowse" VerticalAlignment="Top" Width="58" Click="buttonBrowse_Click" />
+                                <Button Content="Yeni Fotoğraf Yükle" Height="20" Margin="5" Name="buttonBrowse" VerticalAlignment="Top" Click="buttonBrowse_Click" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -48,7 +60,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <Button Content="JSON Çıktısı Al" Height="20" Margin="5" Name="buttonExport" VerticalAlignment="Top" Width="58" Click="buttonExport_Click" />
+                                <Button Content="JSON Çıktısı Al" Height="20" Margin="5" Name="buttonExport" VerticalAlignment="Top" Click="buttonExport_Click" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

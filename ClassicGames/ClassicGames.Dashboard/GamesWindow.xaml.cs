@@ -1,4 +1,5 @@
 ﻿using ClassicGames.DAL;
+using ClassicGames.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,15 @@ namespace ClassicGames.Dashboard
 
         private void grdGames_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
+            // Bu olay tetiklendiyse grid üstünde ya güncelleme yapıp bir başka satıra geçmişizdir ya da en alttaki boş satır üstünden yeni bir veri içeriği girmişizdir
+            var game = e.Row.DataContext as Game; // üzerinde çalıştığımız Game nesnesini bir yakalayalım
+
+            if (game == null) // Null değilse tabii
+                return;
+
+            _gameRepository.UpsertGame(game); // Yeni bilgileri ile birlikte güncelleyelim
+            GetAllGames(); // Güncel veriyi Grid'e çekelim
+            MessageBox.Show($"{game.Name} güncellendi", "Add/Update Book", MessageBoxButton.OK, MessageBoxImage.Information);
 
         }
 
