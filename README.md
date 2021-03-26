@@ -11,7 +11,7 @@ Malum Net 5, .Net Framework dönemlerinden gelen bazı konuları artık içermiy
 - ClassicGames.Models: Model sınıfları olan Game ve GameReview tiplerini içerip, Newtonsoft'u referans eden Class Library türevidir.
 - ClassicGames.DAL: Data Access Layer rolünü üstlenen Class Library. Autofac _(IoC Container için)_, Serilog _(Loglama için)_ ve EntityFramework _(ORM entegrasyonu için)_ NuGet paketlerinin .Net Framework 4.7.2 için uyumlu olan sürümlerini kullanıyor. Oyun ve oyun yorumları ile ilgili gerekli CRUD operasyonlarını sağlayan bir kütüphane.
 - ClassicGames.WebClient: Asp.Net MVC 5 tipinden bir web istemcisidir. Repository üstünden oyun ve oyun yorumları ile ilgili operasyonları icra eder. Bunun için ClassicGames.DAL ve ClassicGames.Models projelerini kullanır. Ayrıca, Antlr, Autoface, EntityFramework, Bootstrap gibi Nuget paketleri kullanmaktadır.
-- ClassicGames.Dashboard: WPF tabanlı bir Administrator uygulamasıdır. Autofac, Entity Framework, Newtonsoft.Json, Serilog nuget paketlerini kullanıyor.
+- ClassicGames.Dashboard: WPF tabanlı bir Administrator uygulamasıdır. Yeni bir oyun eklemek, silmek, bilgilerini güncellemek için kullanılan basit bir windows uygulaması olarak düşünülebilir. GamesWindow.xaml üstündeki DataGrid oldukça yeteneklidir. Tuşa hassasiyeti vardır. Del ile kayıt silebilir, çift tıkladığımız hücrelerde anında güncelleme yapabiliriz. Autofac, Entity Framework, Newtonsoft.Json, Serilog nuget paketlerini kullanıyor.
 
 MVC 5 tabanlı web uygulamasına ait birkaç ekran görüntüsü...
 
@@ -30,7 +30,18 @@ Oyunla ilgili değerlendirmelerin toplu olarak görüldüğü sayfa.
 Bir değerlendirmeyi silmek istediğimizde karşımıza çıkan sevimli sayfa :P
 ![screenshot_5.png](./assets/screenshot_5.png)
 
-_Devam Edecek_
+WPF Olarak Tasarlanmış Dashboard uygulamasına ait birkaç ekran görüntüsü.
+
+Ana sayfanın iğrenç grid görüntüsü :D
+![screenshot_6.png](./assets/screenshot_6.png)
+
+Efsane futbol oyununu ekleyip sonrasında kapak fotoğrafını güncellerken...
+![screenshot_7.png](./assets/screenshot_7.png)
+
+ve bu da bir oyunun JSON çıktısının alınmış hali.
+![screenshot_8.png](./assets/screenshot_8.png)
+
+_devam edecek_
 
 ## Migration İşlemleri
 

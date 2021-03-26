@@ -1,0 +1,40 @@
+{
+  "$id": "1",
+  "Id": 1,
+  "Name": "The Last Ninja",
+  "Summary": "The Last Ninja is an action-adventure game originally developed and published by System 3 in 1987 for the Commodore 64. Other format conversions.",
+  "PublishDate": "1987-01-02T00:00:00",
+  "Developers": "System 3,Eclipse Software Design",
+  "Reviews": [
+    {
+      "$id": "2",
+      "Id": 1,
+      "Game": {
+        "$ref": "1"
+      },
+      "Rating": 8,
+      "Review": "Çocukluğumun en güzel oyunlarından birisidir.",
+      "User": "Retro Baba"
+    },
+    {
+      "$id": "3",
+      "Id": 2,
+      "Game": {
+        "$ref": "1"
+      },
+      "Rating": 7,
+      "Review": "Çocukluk arkadaşımla başında saatler geçirdiğimiz oyundur.",
+      "User": "Baracuda 1234"
+    },
+    {
+      "$id": "4",
+      "Id": 13,
+      "Game": {
+        "$ref": "1"
+      },
+      "Rating": 8,
+      "Review": "Harika bir oyun! Hayt huyt hıyaaa yaa... :D\r\nMinik birde güncelleme yapayım dedim.",
+      "User": "Sarı Fırtına"
+    }
+  ]
+}
