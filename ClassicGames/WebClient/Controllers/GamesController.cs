@@ -40,8 +40,8 @@ namespace WebClient.Controllers
             return View(game);
         }
 
-        // GET: Games/Detail/1234
-        public ActionResult Detail(int? id)
+        // GET: Games/Details/1234
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
