@@ -7,10 +7,12 @@ namespace ClassicGames.DAL
     {
         protected override void Load(ContainerBuilder builder)
         {
+            //CommodoreDbContext kendisi olarak kayıt edilir
             builder.RegisterType<CommodoreDBContext>()
                 .AsSelf()
                 .InstancePerLifetimeScope();
 
+            // GameRepository, implemente ettiği interface tiplerinin kullanıldığı yerler için kayıt edilir
             builder.RegisterType<GameRepository>()
                 .AsImplementedInterfaces()
                 .InstancePerLifetimeScope();

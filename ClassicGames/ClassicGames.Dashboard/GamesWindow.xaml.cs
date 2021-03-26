@@ -1,21 +1,11 @@
 ﻿using ClassicGames.DAL;
 using ClassicGames.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.IO;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using System.IO;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace ClassicGames.Dashboard
 {
@@ -27,6 +17,7 @@ namespace ClassicGames.Dashboard
         IGameRepository _gameRepository;
         public GamesWindow(IGameRepository gameRepository)
         {
+            // Repository'yi Constructor üzerinden enjete ediyoruz. Hangi nesnenin bağlanacağı Autofac yardımıyla App.xaml.cs içerisinde ayarlanmıştı
             _gameRepository = gameRepository;
             InitializeComponent();
             GetAllGames();
@@ -46,9 +37,30 @@ namespace ClassicGames.Dashboard
 
         }
 
+        // Grid üstünden bir satır seçilip herhangibir tuşa basınca çalışan olay metodudur
         private void grdGames_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            if (e.Key == Key.Delete) // Delete tuşuna basılmış mı?
+            {
+                var grid = (DataGrid)sender; // Önce grid üstünde kaç satır seçili, seçili mi bulalım
+                if (grid.SelectedItems.Count <= 0) // hiç satır seçilmediyse geri dön
+                    return;
 
+                if (grid.SelectedItems.Count > 1) // birden fazla oyunu silmeye müsaade edemeyiz
+                {
+                    MessageBox.Show("Tek seferde sadece bir oyun silinebilir biliyor muydun?", "Oyun Silme", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+
+                var result = MessageBox.Show("Gerçekten bu oyunu veri tabanından silmek istiyor musun? Cidden mi?", "Oyun Silme", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
+                if (result == MessageBoxResult.Yes)
+                {
+                    var game = grid.SelectedItem as Game; // seçili öğeyi Game nesnesine dönüştürelim
+                    if (game != null && game.Id > 0) // Game nesnesi varsa 
+                        _gameRepository.Delete(game.Id); // silelim
+                }
+
+                GetAllGames(); // tüm oyunları tekrar getirelim
+            }
         }
 
         private void btnBrowse_Click(object sender, RoutedEventArgs e)

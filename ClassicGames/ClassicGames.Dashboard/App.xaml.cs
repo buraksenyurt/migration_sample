@@ -17,8 +17,8 @@ namespace ClassicGames.Dashboard
         {
             // Gerekli register işlemleri
             var builder = new ContainerBuilder();
-            builder.RegisterType<GamesWindow>().AsSelf().SingleInstance();
-            builder.RegisterModule(new ClassicGamesDBModule());
+            builder.RegisterType<GamesWindow>().AsSelf().SingleInstance(); // Tek bir GamesWindows örneği olacak şekilde kaydettirdik
+            builder.RegisterModule(new ClassicGamesDBModule()); // DbContenxt ve Repository nesnelerini yükleyen modülü çalıştırdık
 
             _container = builder.Build();
 

@@ -41,7 +41,8 @@ Efsane futbol oyununu ekleyip sonrasında kapak fotoğrafını güncellerken...
 ve bu da bir oyunun JSON çıktısının alınmış hali.
 ![screenshot_8.png](./assets/screenshot_8.png)
 
-_devam edecek_
+Silme operasyonunda da böyle bir durum oluşuyor.
+![screenshot_9.png](./assets/screenshot_9.png)
 
 ## Migration İşlemleri
 
