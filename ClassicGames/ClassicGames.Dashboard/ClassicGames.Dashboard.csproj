@@ -136,6 +136,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClassicGames.DAL\ClassicGames.DAL.csproj">
+      <Project>{ca7b6873-6ff8-453f-ab0c-bc3260cfc515}</Project>
+      <Name>ClassicGames.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ClassicGames.Models\ClassicGames.Models.csproj">
+      <Project>{22475468-b8f7-4b37-8722-8f8eef2176d6}</Project>
+      <Name>ClassicGames.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
