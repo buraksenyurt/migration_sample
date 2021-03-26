@@ -10,8 +10,8 @@ Malum Net 5, .Net Framework dönemlerinden gelen bazı konuları artık içermiy
 
 - ClassicGames.Models: Model sınıfları olan Game ve GameReview tiplerini içerip, Newtonsoft'u referans eden Class Library türevidir.
 - ClassicGames.DAL: Data Access Layer rolünü üstlenen Class Library. Autofac _(IoC Container için)_, Serilog _(Loglama için)_ ve EntityFramework _(ORM entegrasyonu için)_ NuGet paketlerinin .Net Framework 4.7.2 için uyumlu olan sürümlerini kullanıyor. Oyun ve oyun yorumları ile ilgili gerekli CRUD operasyonlarını sağlayan bir kütüphane.
-  - ClassicGames.WebClient: Asp.Net MVC 5 tipinden bir web istemcisidir. Repository üstünden oyun ve oyun yorumları ile ilgili operasyonları icra eder. Bunun için ClassicGames.DAL ve ClassicGames.Models projelerini kullanır. Ayrıca, Antlr, Autoface, EntityFramework, Bootstrap gibi Nuget paketleri kullanmaktadır.
-- ClassicGames.Dashboard: WPF tabanlı bir Administrator uygulamasıdır. _Yazılacak_
+- ClassicGames.WebClient: Asp.Net MVC 5 tipinden bir web istemcisidir. Repository üstünden oyun ve oyun yorumları ile ilgili operasyonları icra eder. Bunun için ClassicGames.DAL ve ClassicGames.Models projelerini kullanır. Ayrıca, Antlr, Autoface, EntityFramework, Bootstrap gibi Nuget paketleri kullanmaktadır.
+- ClassicGames.Dashboard: WPF tabanlı bir Administrator uygulamasıdır. Autofac, Entity Framework, Newtonsoft.Json, Serilog nuget paketlerini kullanıyor.
 
 MVC 5 tabanlı web uygulamasına ait birkaç ekran görüntüsü...
 
@@ -35,3 +35,5 @@ _Devam Edecek_
 ## Migration İşlemleri
 
 _Yazılacak_
+
+[Kaynak](https://www.packtpub.com/product/adopting-net-5/9781800560567)
