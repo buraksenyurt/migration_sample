@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 
 namespace ClassicGames.Dashboard
 {
@@ -50,14 +51,14 @@ namespace ClassicGames.Dashboard
 
         }
 
-        private void buttonBrowse_Click(object sender, RoutedEventArgs e)
+        private void btnBrowse_Click(object sender, RoutedEventArgs e)
         {
             // Oyunun kapak fotoğrafını güncellemek veya yeni bir oyun için yenisin eklemek istediğimizde devreye giren olay metodu
-            
+
             // Win32 üstünden File Dialog kullanıyoruz
             var dialog = new OpenFileDialog
             {
-                Title = "Choose Cover Image",
+                Title = "Oyunun kapak fotoğrafını seçelim",
                 Filter = "JPEG (*.jpg;*.jpeg;*.jpe)|*.jpg;*.jpeg;*.jpe|PNG (*.png)|*.png|All Files (*.*)|*.*"
             };
             if (dialog.ShowDialog() == true)
@@ -92,9 +93,41 @@ namespace ClassicGames.Dashboard
             }
         }
 
-        private void buttonExport_Click(object sender, RoutedEventArgs e)
+        // Seçilen oyun bilgilerini JSON çıktı olarak almamızı sağlayan olay metodu
+        private void btnExport_Click(object sender, RoutedEventArgs e)
         {
+            // Eğer seçilin veri nesnesi Game tipinden değilse uyarı veriyorsa.
+            // Aksi durumda onu game değişkeni olarak ele alabiliriz
+            // Pattern Matching sağolsun
+            if (!(((FrameworkElement)sender).DataContext is Game game))
+            {
+                MessageBox.Show("JSON çıktısı almak için bir oyun seçilmeli", "JSON Çıktı", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
 
+            var dialog = new SaveFileDialog
+            {
+                Title = "Bilgileri JSON Olarak Çıkartalım",
+                Filter = "JSON (*.json)|*.json|All Files (*.*)|*.*",
+                FileName = game.Name
+            };
+            dialog.ShowDialog();
+            if (dialog.FileName != "")
+            {
+                using (StreamWriter file = File.CreateText(dialog.FileName))
+                {
+                    var serializedJson = JsonConvert.SerializeObject(game, Formatting.Indented,
+                        new JsonSerializerSettings
+                        {
+                            PreserveReferencesHandling = PreserveReferencesHandling.Objects
+                        });
+
+                    file.Write(serializedJson);
+                    file.Close();
+                }
+
+                MessageBox.Show("JSON çıktı işlemi başarılı!", "Book Export", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void GetAllGames()

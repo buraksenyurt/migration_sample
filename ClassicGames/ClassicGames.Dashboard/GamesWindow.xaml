@@ -51,7 +51,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <Button Content="Yeni Fotoğraf Yükle" Height="20" Margin="5" Name="buttonBrowse" VerticalAlignment="Top" Click="buttonBrowse_Click" />
+                                <Button Content="Yeni Fotoğraf Yükle" Height="20" Margin="5" Name="btnBrowse" VerticalAlignment="Top" Click="btnBrowse_Click" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -60,7 +60,7 @@
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel>
-                                <Button Content="JSON Çıktısı Al" Height="20" Margin="5" Name="buttonExport" VerticalAlignment="Top" Click="buttonExport_Click" />
+                                <Button Content="JSON Çıktısı Al" Height="20" Margin="5" Name="btnExport" VerticalAlignment="Top" Click="btnExport_Click" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
