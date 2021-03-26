@@ -203,11 +203,13 @@
     <Content Include="Views\Games\Index.cshtml" />
     <Content Include="Views\Games\Edit.cshtml" />
     <Content Include="Views\Games\Details.cshtml" />
+    <Content Include="Views\GameReviews\Index.cshtml" />
+    <Content Include="Views\GameReviews\Create.cshtml" />
+    <Content Include="Views\GameReviews\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\GameReviews\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

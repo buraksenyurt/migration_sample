@@ -42,8 +42,9 @@
                 @item.PublishDate.ToString("d")
             </td>
             <td>
-                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                @Html.ActionLink("Reviews", "Index", "GameReviews", new { id = item.Id }, null)
+                @Html.ActionLink("Detay", "Details", new { id = item.Id })
+                |
+                @Html.ActionLink("Yorumlar", "Index", "GameReviews", new { id = item.Id }, null)
             </td>
         </tr>
     }
