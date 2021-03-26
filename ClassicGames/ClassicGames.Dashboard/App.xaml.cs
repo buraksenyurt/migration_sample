@@ -15,22 +15,30 @@ namespace ClassicGames.Dashboard
 
         public App()
         {
+            // Gerekli register işlemleri
             var builder = new ContainerBuilder();
-            builder.RegisterType<MainWindow>().AsSelf().SingleInstance();
+            builder.RegisterType<GamesWindow>().AsSelf().SingleInstance();
             builder.RegisterModule(new ClassicGamesDBModule());
 
             _container = builder.Build();
 
+            // Uygulama bazında bir hata olması durumunda onu yakalayıp Serilog üstünden logladığımız event metodu
             AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
             {
                 Exception exc = (Exception)args.ExceptionObject;
                 Log.Error(exc.Message);
             };
         }
-        private void OnStartup(object sender, StartupEventArgs e)
+        /*
+            App.xaml içindeki Startup niteliğine atanan fonksiyon.
+            Uygulama ayağa kalkarken GamesWindow'u register edip yükler
+            Varsayılan olarak App.xaml'e gelen Startupuri niteliği unutulur ve Startup niteliği ile değiştirilmezse bu register operasyonu gerçekleşmeyeceğinden,
+            çalışma zamanında Null Reference hatası alınabilir.
+        */
+        private void Initialize(object sender, StartupEventArgs e)
         {
-            var mainWindow = _container.Resolve<MainWindow>();
-            mainWindow.Show();
+            var gamesWindow = _container.Resolve<GamesWindow>();
+            gamesWindow.Show();
         }
     }
 }

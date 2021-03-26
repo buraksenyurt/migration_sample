@@ -1,0 +1,59 @@
+﻿<Window x:Class="ClassicGames.Dashboard.GamesWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClassicGames.Dashboard"
+        mc:Ignorable="d"
+        Title="C64K Oyunları" Height="450" Width="1280">
+    <Window.Resources>
+        <local:ImageConverter x:Key="ImageConverter"/>
+    </Window.Resources>
+    <Grid>
+        <DataGrid Name="grdGames" AutoGenerateColumns="False"  Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="1200" RowEditEnding="grdGames_RowEditEnding" PreviewKeyDown="grdGames_PreviewKeyDown">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Width="20" Binding="{Binding Id, NotifyOnTargetUpdated=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+                <DataGridTemplateColumn Header="Unutulmaz Kapağı" Width="160" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Stretch="UniformToFill" Name="Cover" Source="{Binding Photo, Converter= {StaticResource ImageConverter}, Mode=OneWay, ValidatesOnExceptions=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>                
+                <DataGridTextColumn Header="Oyun" Width="200" Binding="{Binding Name, NotifyOnTargetUpdated=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Hakkında" Width="300" Binding="{Binding Summary, NotifyOnTargetUpdated=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="Geliştiricileri" Width="200" Binding="{Binding Developers, NotifyOnTargetUpdated=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTemplateColumn Header="Çıkış Tarihi">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding PublishDate, StringFormat=\{0:d\}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellEditingTemplate>
+                        <DataTemplate>
+                            <DatePicker SelectedDate ="{Binding PublishDate, NotifyOnTargetUpdated=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellEditingTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Button Content="Yeni Fotoğraf Yükle" Height="20" Margin="5" Name="buttonBrowse" VerticalAlignment="Top" Width="58" Click="buttonBrowse_Click" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Button Content="JSON Çıktısı Al" Height="20" Margin="5" Name="buttonExport" VerticalAlignment="Top" Width="58" Click="buttonExport_Click" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
