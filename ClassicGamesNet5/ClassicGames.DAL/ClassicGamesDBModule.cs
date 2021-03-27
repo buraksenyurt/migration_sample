@@ -1,21 +1,18 @@
-﻿using Autofac;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace ClassicGames.DAL
 {
-    public class ClassicGamesDBModule
-        :Module
+    public static class ClassicGamesDBModule
     {
-        protected override void Load(ContainerBuilder builder)
+        public static IServiceCollection Load(this IServiceCollection services, string sqlConnection)
         {
-            //CommodoreDbContext kendisi olarak kayıt edilir
-            builder.RegisterType<CommodoreDBContext>()
-                .AsSelf()
-                .InstancePerLifetimeScope();
+            var dbOptions = new DbContextOptionsBuilder<CommodoreDBContext>();
+            dbOptions.UseSqlServer(sqlConnection);
+            services.AddSingleton(o => dbOptions.Options);
+            services.AddScoped<IGameRepository, GameRepository>();
 
-            // GameRepository, implemente ettiği interface tiplerinin kullanıldığı yerler için kayıt edilir
-            builder.RegisterType<GameRepository>()
-                .AsImplementedInterfaces()
-                .InstancePerLifetimeScope();
+            return services;
         }
     }
 }
