@@ -46,6 +46,8 @@ Silme operasyonunda da böyle bir durum oluşuyor.
 
 ## Migration İşlemleri
 
+En basiti olan ClassicGames.Models ile işe başlanabilir. Sadece packages.config ve csproj değişiklikleri yeterli olur.
+
 ### packages.config Migrations
 
 Net 5 tarafındaki paket yönetim tarafı farklıdır. packages.config içeriği csproj içerisinde yer alır. Visual Studio bu noktada bize kolaylık sağlar.
@@ -62,6 +64,8 @@ ve bu rapor fiziki olarak klasör içerisine de alınır. Dolayısıyla ortam de
 
 Migration sonrası projeyi build etmemiz gerekir. csproj'da meydana gelen değişiklik aşağıdaki gibidir.
 ![screenshot_13.png](./assets/screenshot_13.png)
+
+_packages.config -> Package Reference düzenlemeleri kullanılan diğer projeler için de uygulanmalıdır_
 
 ### csproj düzenlemesi
 
@@ -84,6 +88,46 @@ Var olan AssemblyInfo.cs dosyasına da ihtiyaç yoktur, silinebilir. csproj'un g
 	</ItemGroup>	
 </Project>
 ```
+
+### ClassicGames.DAL için Dönüşümler
+
+Data Access Layer için kullanılan bu proje ORM tarafı için Entity Framework ve Dependency Injection yönetimi için Autofac kullanmaktadır. Bunların da Net 5 için güncellenmesi gerekir.
+Entity Framework için Core sürümü tercih edilir ve bu kod tarafında da değişiklik yapılmasını gerektirir. Autofac yerine ise .Net Core ile birlikte hayatımıza gire dahili injection kütüphanesi kullanılabilir.
+packages.config dönüşümü bize proje bağımlılıklarını da gösterir.
+
+![screenshot_14.png](./assets/screenshot_14.png)
+
+Models projesinde olduğu gibi csproj için de düzenleme yapılır._(Unload Project->Edit Project File->Edit->Reload Project->Build)_
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ClassicGames.Models\ClassicGames.Models.csproj">
+			<Name>ClassicGames.Models</Name>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="Assets\paper_boy.png" />
+		<EmbeddedResource Include="Assets\the_last_ninja.jpg" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+		<PackageReference Include="Serilog" Version="2.10.0" />
+	</ItemGroup>
+</Project>
+```
+
+Bu aşamada build EF Core farklılıkları ve Autofac olmadığından dolayı hatalar verecektir. Yapılan düzenlemeler şöyle özetlenebilir.
+
+- CommodoreDBContext sınıfı tekrardan düzenlenir ve CommodoreDBInitilaizer içindeki Seed operasyonu buraya alınır. Niteki Core tarafında örnek veri oluşturma prosedürü değişmiştir. HasData metodu kullanılır. CommodoreDBInitilaizer silinir.
+- GameRepository sınıfı yeni DbContext ile uyumlu hale getirilir. _(using kullanımlarına dikkat)_
+- DI Framework için kullanılan Autofac kaldırıldığı için ClassicGamesDBModule Microsoft.Extensions.DependencyInjection ile çalışacak hale getirilir.
+
+### WPF Tarafının Taşınması
 
 _Devam Edecek_
 
