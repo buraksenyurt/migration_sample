@@ -129,6 +129,45 @@ Bu aşamada build EF Core farklılıkları ve Autofac olmadığından dolayı ha
 
 ### WPF Tarafının Taşınması
 
+WPF halen Net 5 tarafında destekleniyor. Bu nedenle çok acı bir durumda değiliz. İlk olarak packages.config birleştirme işlemini yapmak, AssemblyInfo.cs'ten kurtulmak ve csproj dosyasını uyumlu hale getirmek gerekiyor. Önceki adımlardakine benzer şekilde hareket edilebilir.
+Konfigurasyon yönetimi artık appsettings.json üzerinden yapıldığı için içerisinde connectionString bilgisini barındıran bir tanesini de eklememiz lazım.
+
+![screenshot_15.png](./assets/screenshot_15.png)
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>net5.0-windows</TargetFramework>
+		<OutputType>WinExe</OutputType>
+		<UseWPF>true</UseWPF>
+	</PropertyGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ClassicGames.DAL\ClassicGames.DAL.csproj">
+			<Name>ClassicGames.DAL</Name>
+		</ProjectReference>
+		<ProjectReference Include="..\ClassicGames.Models\ClassicGames.Models.csproj">
+			<Name>ClassicGames.Models</Name>
+		</ProjectReference>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Serilog" Version="2.10.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+</Project>
+```
+
+Bu işlemlerden sonra Autfac ve EF değişimleri nedeni ile derleme hatası alan App.xaml.cs içeriğini uyumlu hale getirmek gerekiyor.
+
+### Web Uygulamasının Taşınması
+
 _Devam Edecek_
 
 [Kaynak](https://www.packtpub.com/product/adopting-net-5/9781800560567)
