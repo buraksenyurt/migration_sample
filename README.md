@@ -46,6 +46,45 @@ Silme operasyonunda da böyle bir durum oluşuyor.
 
 ## Migration İşlemleri
 
-_Yazılacak_
+### packages.config Migrations
+
+Net 5 tarafındaki paket yönetim tarafı farklıdır. packages.config içeriği csproj içerisinde yer alır. Visual Studio bu noktada bize kolaylık sağlar.
+packages.config dosyasına sağ tıklayınca çıkan _Migrate packages.config to Package Reference_ ile bu işlem kolayca yapılabilir. Tabii ilgili içeriği elle de taşıyabiliriz.
+İlk olarak ClassicGames.Models projesi için bu işlemi yapalım. İlgili seçim sonrası çıkan pencerede bağımlılıkları görebiliriz.
+
+![screenshot_10.png](./assets/screenshot_10.png)
+
+Migration başarılı bir şekilde tamamlanınca bir rapor da üretilir.
+![screenshot_11.png](./assets/screenshot_11.png)
+
+ve bu rapor fiziki olarak klasör içerisine de alınır. Dolayısıyla ortam değişikliği fiziki hafızaya kaydeder. Gerekirse geri alabilelim diye.
+![screenshot_12.png](./assets/screenshot_12.png)
+
+Migration sonrası projeyi build etmemiz gerekir. csproj'da meydana gelen değişiklik aşağıdaki gibidir.
+![screenshot_13.png](./assets/screenshot_13.png)
+
+### csproj düzenlemesi
+
+Net 5'in csproj dosya içeriği insanlar için daha okunabilir bir hale getirilmiştir. Var olan csproj dosyaları bu açıdan yeniden düzenlenir. 
+Bu işlem için ilk olarak ilgili proje _Unload Project_ seçeneği ile kaldırılır ve sonrasında csproj dosyası _Edit Project File_ seçeneği ile yeniden düzenlenir.
+Var olan AssemblyInfo.cs dosyasına da ihtiyaç yoktur, silinebilir. csproj'un güncel hali aşağıdaki gibidir.
+
+```xml
+<Project Sdk="Microsoft.NET.Sdk">	
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+	</PropertyGroup>	
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json">
+			<Version>12.0.2</Version>
+		</PackageReference>
+	</ItemGroup>	
+	<ItemGroup>
+		<Folder Include="Properties\"/>
+	</ItemGroup>	
+</Project>
+```
+
+_Devam Edecek_
 
 [Kaynak](https://www.packtpub.com/product/adopting-net-5/9781800560567)
