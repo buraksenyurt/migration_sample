@@ -14,10 +14,9 @@ namespace ClassicGames.Dashboard
     /// </summary>
     public partial class GamesWindow : Window
     {
-        IGameRepository _gameRepository;
+        readonly IGameRepository _gameRepository;
         public GamesWindow(IGameRepository gameRepository)
         {
-            // Repository'yi Constructor üzerinden enjete ediyoruz. Hangi nesnenin bağlanacağı Autofac yardımıyla App.xaml.cs içerisinde ayarlanmıştı
             _gameRepository = gameRepository;
             InitializeComponent();
             GetAllGames();
@@ -25,28 +24,26 @@ namespace ClassicGames.Dashboard
 
         private void grdGames_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
-            // Bu olay tetiklendiyse grid üstünde ya güncelleme yapıp bir başka satıra geçmişizdir ya da en alttaki boş satır üstünden yeni bir veri içeriği girmişizdir
-            var game = e.Row.DataContext as Game; // üzerinde çalıştığımız Game nesnesini bir yakalayalım
+            var game = e.Row.DataContext as Game; 
 
-            if (game == null) // Null değilse tabii
+            if (game == null)
                 return;
 
-            _gameRepository.UpsertGame(game); // Yeni bilgileri ile birlikte güncelleyelim
-            GetAllGames(); // Güncel veriyi Grid'e çekelim
+            _gameRepository.UpsertGame(game);
+            GetAllGames(); 
             MessageBox.Show($"{game.Name} güncellendi", "Add/Update Book", MessageBoxButton.OK, MessageBoxImage.Information);
 
         }
 
-        // Grid üstünden bir satır seçilip herhangibir tuşa basınca çalışan olay metodudur
         private void grdGames_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Delete) // Delete tuşuna basılmış mı?
+            if (e.Key == Key.Delete)
             {
-                var grid = (DataGrid)sender; // Önce grid üstünde kaç satır seçili, seçili mi bulalım
-                if (grid.SelectedItems.Count <= 0) // hiç satır seçilmediyse geri dön
+                var grid = (DataGrid)sender;
+                if (grid.SelectedItems.Count <= 0) 
                     return;
 
-                if (grid.SelectedItems.Count > 1) // birden fazla oyunu silmeye müsaade edemeyiz
+                if (grid.SelectedItems.Count > 1)
                 {
                     MessageBox.Show("Tek seferde sadece bir oyun silinebilir biliyor muydun?", "Oyun Silme", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -54,20 +51,17 @@ namespace ClassicGames.Dashboard
                 var result = MessageBox.Show("Gerçekten bu oyunu veri tabanından silmek istiyor musun? Cidden mi?", "Oyun Silme", MessageBoxButton.YesNo, MessageBoxImage.Exclamation);
                 if (result == MessageBoxResult.Yes)
                 {
-                    var game = grid.SelectedItem as Game; // seçili öğeyi Game nesnesine dönüştürelim
-                    if (game != null && game.Id > 0) // Game nesnesi varsa 
-                        _gameRepository.Delete(game.Id); // silelim
+                    var game = grid.SelectedItem as Game; 
+                    if (game != null && game.Id > 0)
+                        _gameRepository.Delete(game.Id); 
                 }
 
-                GetAllGames(); // tüm oyunları tekrar getirelim
+                GetAllGames(); 
             }
         }
 
         private void btnBrowse_Click(object sender, RoutedEventArgs e)
         {
-            // Oyunun kapak fotoğrafını güncellemek veya yeni bir oyun için yenisin eklemek istediğimizde devreye giren olay metodu
-
-            // Win32 üstünden File Dialog kullanıyoruz
             var dialog = new OpenFileDialog
             {
                 Title = "Oyunun kapak fotoğrafını seçelim",
@@ -75,7 +69,6 @@ namespace ClassicGames.Dashboard
             };
             if (dialog.ShowDialog() == true)
             {
-                // Eğer var olan bir oyun üstünden buraya geldiysek güncelleme söz konusu olacaktır
                 if (((FrameworkElement)sender).DataContext is Game game && game.Id > 0)
                 {
                     game.Photo = GetPhoto(dialog.FileName);
@@ -89,7 +82,6 @@ namespace ClassicGames.Dashboard
                 {
                     MessageBox.Show("Fotoğrafı yükleyemedim yaa. Sanırım önce bir oyun girmen lazım. :(", "Oyun Ekle", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
-
             }
         }
 
@@ -105,12 +97,8 @@ namespace ClassicGames.Dashboard
             }
         }
 
-        // Seçilen oyun bilgilerini JSON çıktı olarak almamızı sağlayan olay metodu
         private void btnExport_Click(object sender, RoutedEventArgs e)
         {
-            // Eğer seçilin veri nesnesi Game tipinden değilse uyarı veriyorsa.
-            // Aksi durumda onu game değişkeni olarak ele alabiliriz
-            // Pattern Matching sağolsun
             if (!(((FrameworkElement)sender).DataContext is Game game))
             {
                 MessageBox.Show("JSON çıktısı almak için bir oyun seçilmeli", "JSON Çıktı", MessageBoxButton.OK, MessageBoxImage.Information);

@@ -70,7 +70,7 @@ namespace ClassicGames.DAL
             {
                 GameId = 1,
                 Id = 2,
-                UsUser = "Baracuda 1234",
+                User = "Baracuda 1234",
                 Rating = 7,
                 Review = "Çocukluk arkadaşımla başında saatler geçirdiğimiz oyundur."
             });
