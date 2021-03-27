@@ -7,8 +7,9 @@ namespace ClassicGames.DAL
     {
         public static IServiceCollection Load(this IServiceCollection services, string sqlConnection)
         {
+            // EF Core DbContext nesnesi, çalışmak için DbContextOptions'a ihtiyaç duyar.
             var dbOptions = new DbContextOptionsBuilder<CommodoreDBContext>();
-            dbOptions.UseSqlServer(sqlConnection);
+            dbOptions.UseSqlServer(sqlConnection); // Options üstünden örneğin bağlantı bilgisini verebiliriz
             services.AddSingleton(o => dbOptions.Options);
             services.AddScoped<IGameRepository, GameRepository>();
 

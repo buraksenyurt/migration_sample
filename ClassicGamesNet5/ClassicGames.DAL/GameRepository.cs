@@ -16,6 +16,9 @@ namespace ClassicGames.DAL
         }
         public GameReview AddReview(int id, GameReview gameReview)
         {
+            // Tüm metotlarda DbContext nesnesi using ile birlikte kullanılmıştır
+            // EF Core birden fazla Thread üstünden gelen operasyonların aynı context içerisinde ele alınmasına izin vermez
+            // Bu nedenle işlemler kendi bağımsız alanları içinde yapılır.
             using var context = new CommodoreDBContext(_dbContextOptions);
             if (gameReview.Id > 0 || gameReview.Game != null)
                 throw new DataException("Değerlendirme eklenemedi. Id 0 olmalı");

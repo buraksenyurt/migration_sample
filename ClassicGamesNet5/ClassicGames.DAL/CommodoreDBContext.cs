@@ -18,12 +18,14 @@ namespace ClassicGames.DAL
         public DbSet<GameReview> GameReviews { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Entity nesnelerini tanımlarken tablo adlarını da belirttik.
             modelBuilder.Entity<Game>()
                 .ToTable("Game");
 
             modelBuilder.Entity<GameReview>()
                 .ToTable("GameReview");
 
+            // one-to-many ilişkiyi belirtmemiz lazım
             modelBuilder.Entity<GameReview>()
                 .HasOne(g => g.Game)
                 .WithMany(g => g.Reviews)
@@ -52,8 +54,10 @@ namespace ClassicGames.DAL
                     Photo=ImageLoader.GetGameCover("paper_boy.png")
                 }
             };
+            // HasData metodu veri yoksa ekleme işlemini gerçekleştirir
             modelBuilder.Entity<Game>().HasData(a_few_games);
 
+            // EF Core'da one-to-many ilişkideki verileri eklerken foreign key değerini vermek gerekir (GameId)
             modelBuilder.Entity<GameReview>().HasData(new
             {
                 GameId=1,
