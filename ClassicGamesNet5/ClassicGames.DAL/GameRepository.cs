@@ -1,7 +1,7 @@
 ﻿using ClassicGames.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 
 namespace ClassicGames.DAL
@@ -9,13 +9,14 @@ namespace ClassicGames.DAL
     public class GameRepository
         : IGameRepository
     {
-        private readonly CommodoreDBContext _dbContext;
-        public GameRepository(CommodoreDBContext dbContext)
+        private readonly DbContextOptions<CommodoreDBContext> _dbContextOptions;
+        public GameRepository(DbContextOptions<CommodoreDBContext> dbContextOptions)
         {
-            _dbContext = dbContext;
+            _dbContextOptions = dbContextOptions;
         }
         public GameReview AddReview(int id, GameReview gameReview)
         {
+            using var context = new CommodoreDBContext(_dbContextOptions);
             if (gameReview.Id > 0 || gameReview.Game != null)
                 throw new DataException("Değerlendirme eklenemedi. Id 0 olmalı");
 
@@ -24,32 +25,35 @@ namespace ClassicGames.DAL
                 throw new DataException($"Üzgünüz. {id} numaralı oyunu bulamadık.");
 
             game.Reviews.Add(gameReview);
-            _dbContext.SaveChanges();
+            context.SaveChanges();
             return gameReview;
         }
 
         public void Delete(int Id)
         {
-            var game = _dbContext.Games.FirstOrDefault(g => g.Id == Id);
+            using var context = new CommodoreDBContext(_dbContextOptions);
+            var game = context.Games.FirstOrDefault(g => g.Id == Id);
             if (game == null)
                 throw new DataException($"Üzgünüm dostum. {Id} ile bir oyun bulamadık.");
-            _dbContext.Games.Remove(game);
-            _dbContext.SaveChanges();
+            context.Games.Remove(game);
+            context.SaveChanges();
         }
 
         public void DeleteReview(int id)
         {
+            using var context = new CommodoreDBContext(_dbContextOptions);
             GameReview review = GetReviewById(id);
             if (review == null)
                 throw new DataException($"{id} nolu bir oyun yorumu bulamadım.");
 
-            _dbContext.GameReviews.Remove(review);
-            _dbContext.SaveChanges();
+            context.GameReviews.Remove(review);
+            context.SaveChanges();
         }
 
         public IEnumerable<Game> GetAll()
         {
-            return _dbContext
+            using var context = new CommodoreDBContext(_dbContextOptions);
+            return context
                 .Games
                 .Include(g => g.Reviews)
                 .ToList();
@@ -57,10 +61,11 @@ namespace ClassicGames.DAL
 
         public Game GetById(int? Id)
         {
+            using var context = new CommodoreDBContext(_dbContextOptions);
             if (!Id.HasValue)
                 return null;
 
-            return _dbContext
+            return context
                 .Games
                 .Include(g => g.Reviews)
                 .FirstOrDefault(g => g.Id == Id.Value);
@@ -68,10 +73,11 @@ namespace ClassicGames.DAL
 
         public GameReview GetReviewById(int? id)
         {
+            using var context = new CommodoreDBContext(_dbContextOptions);
             if (!id.HasValue)
                 return null;
 
-            return _dbContext
+            return context
                 .GameReviews
                 .Include(g => g.Game)
                 .FirstOrDefault(g => g.Id == id.Value);
@@ -79,20 +85,24 @@ namespace ClassicGames.DAL
 
         public GameReview UpdateReview(GameReview gameReview)
         {
+            using var context = new CommodoreDBContext(_dbContextOptions);
             var gameReviewDb = GetReviewById(gameReview.Id);
             gameReviewDb.User = gameReview.User;
             gameReviewDb.Review = gameReview.Review;
             gameReviewDb.Rating = gameReview.Rating;
-            _dbContext.SaveChanges();
+            context.SaveChanges();
             return gameReviewDb;
         }
 
         public Game UpsertGame(Game game)
         {
+            using var context = new CommodoreDBContext(_dbContextOptions);
             if (game.Id <= 0)
-                _dbContext.Games.Add(game);
+                context.Games.Add(game);
+            else
+                context.Entry(game).State = EntityState.Modified;
 
-            _dbContext.SaveChanges();
+            context.SaveChanges();
             return game;
         }
     }
