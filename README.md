@@ -170,6 +170,18 @@ Bu işlemlerden sonra Autfac ve EF değişimleri nedeni ile derleme hatası alan
 
 MVC WebClient uygulamasının .Net 5.0 platformuna evrilmesinin en iyi yolu sıfırdan bir web projesi açıp diğerinden Controller ve View gibi enstrümanları taşımak gibi görünüyor. Bu nedenle önce Solution'daki var olan proje çıkartıldı._(Önceki sürümün yedeğini almıştık zaten)_ .Net 5.0 destekli yeni bir Asp.Net Core Web Application oluşturuldu. Bu yeni projede yapılanları ise şöyle.
 
--
+- Eski projedeki _global.asax_ artık yok. Gerekli Depedency Injection entegrasyonu _Startup.cs_ üstünden yapılır.
+- _appSettings.json_ dosyasına CommodoreDB bağlantısı için gerekli _ConnectionStrings_ bilgisi eklenir.
+- Eski projedeki Controller sınıfları bu projeye de kopyalanır ve MVC 5.0 uyumluluğu için aşağıdaki değişiklikler yapılır.
+  - _System.Web.Mvc_ isimalanı _Microsoft.AspNetCore.Mvc_ ile değiştirilir.
+  - _HttpStatusCodeResult(HttpStatusCode.BadRequest)_ yerine _BadRequestResult_ kullanılır.
+  - _HttpNotFound_ tipi yerine _NotFound_ kullanılır.
+  - _Bind_ niteliğine ait _Include_ özelliği kaldırılır.
+- View klasöründeki içerik buraya da taşınır ama bazı değişikliker yapılır.
+  - _@section Scripts{_ kısımları kaldırılır.
+  - _@Html.HiddenFor_'un GameReviews altındaki view'lardaki bazı kullanımları, _Hidden_ fonksiyonu ile değiştirilir.
+  - _Layout.cshtml_ sayfasındaki _@Scripts_ ve _@Styles_ direktifleri desteklenmediği için yerlerine _script src_ ve _link_ direktifleri kullanılır.
+
+Bu değişikliklerden sonra WPF ve Web tarafındaki uygulamaların test edilmesi önerilir. Çalışıyorlarsa süper :)
 
 [Kaynak](https://www.packtpub.com/product/adopting-net-5/9781800560567)
