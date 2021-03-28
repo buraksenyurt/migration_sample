@@ -29,7 +29,7 @@ namespace ClassicGames.DAL
             modelBuilder.Entity<GameReview>()
                 .HasOne(g => g.Game)
                 .WithMany(g => g.Reviews)
-                .HasForeignKey("Game_Id");
+                .HasForeignKey("GameId");
 
             Log.Warning("Veriler için tohumlama operasyonu başlatılıyor...");
 
