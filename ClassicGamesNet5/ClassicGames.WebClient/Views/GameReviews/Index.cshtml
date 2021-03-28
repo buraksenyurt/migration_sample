@@ -1,0 +1,60 @@
+﻿@model ClassicGames.Models.Game
+
+@{
+    ViewBag.Title = "Yorumlar";
+}
+
+<h2>@Model.Name için Neler Söylediler?</h2>
+
+<p>
+    @Html.ActionLink("Yeni Yorum", "Create", new { id = Model.Id })
+</p>
+<table class="table">
+    <tr>
+        <th style="min-width:100px">
+            Puanı
+        </th>
+        <th>
+            Değerlendiren
+        </th>
+        <th>
+            Yorumu
+        </th>
+        <th></th>
+    </tr>
+
+    @if (Model.Reviews != null)
+    {
+        foreach (var item in Model.Reviews)
+        {
+            <tr>
+                <td>
+                    @if (item.Rating.HasValue)
+                    {
+                        for (int i = 0; i < item.Rating; i++)
+                        {
+                            <span class="glyphicon glyphicon-star"></span>
+                        }
+                        for (int i = item.Rating.Value; i < 10; i++)
+                        {
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                        }
+                    }
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Review)
+                </td>
+                <td>
+                    @Html.ActionLink("Düzenle", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Sil","Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    }
+
+</table>
