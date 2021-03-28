@@ -168,6 +168,8 @@ Bu işlemlerden sonra Autfac ve EF değişimleri nedeni ile derleme hatası alan
 
 ### Web Uygulamasının Taşınması
 
-_Devam Edecek_
+MVC WebClient uygulamasının .Net 5.0 platformuna evrilmesinin en iyi yolu sıfırdan bir web projesi açıp diğerinden Controller ve View gibi enstrümanları taşımak gibi görünüyor. Bu nedenle önce Solution'daki var olan proje çıkartıldı._(Önceki sürümün yedeğini almıştık zaten)_ .Net 5.0 destekli yeni bir Asp.Net Core Web Application oluşturuldu. Bu yeni projede yapılanları ise şöyle.
+
+-
 
 [Kaynak](https://www.packtpub.com/product/adopting-net-5/9781800560567)
