@@ -247,4 +247,29 @@ Veritabanını başarılı şekilde oluşup oluşmadığını Azure portal'den g
 
 ![screenshot_19.png](./assets/screenshot_19.png)
 
+### Local'den Azure'a Data Migration
+
+Veritabanını oluşturduktan sonra local'deki veritabanı şemasını ve içeriğini taşıyabiliriz de. Bunun için [Microsoft Data Migration Assistant](https://www.microsoft.com/en-us/download/details.aspx?id=53595) aracından yararlanılabilir.
+Ancak Dashboard uygulaması üstünden Migration planı çalıştırıp Azure üzerinde veritabanı tablolarının oluşturulmasını ve ilk kayıtların eklenmesini de sağlayabiliriz. Bunun için Dashboard ve WebClient uygulamalarınının appSettings.json dosyalarındaki bağlantı bilgilerini Azure SQL veritabanını işaret edecek şekilde değiştirmemiz yeterlidir.
+
+Bizim örneğimiz için aşağıdaki gibi.
+
+```text
+Server=tcp:burakselimsqlserver.database.windows.net,1433;Database=CommodoreDB;User ID=scotie;Password=t1ger_tanks;Encrypt=true;Connection Timeout=30
+```
+
+İlk olarak Dashboard uygulamasını çalıştırırsak _(ki bizim Admin arayüzümüzdür)_ Migration planı çalışır ve şema ile verile oluşur. _(Elbette önceki denemelerde yerel veritabanına daha fazla veri eklenmişse Microsoft Data Migration Assistant veya benzeri bir aracı kullanmak daha doğru olacaktır)_ 
+Sonrasında WebClient'ı çalıştırıp uygulamanın fonksiyonelliklerini test edebiliriz.
+
+![screenshot_20.png](./assets/screenshot_20.png)
+
+## Azure Kaynaklarını Silme
+
+Her ne kadar deneysel bir çalışma olsa da kaynakları temizlemekte yarar var. Bunun için Azure Shell üstünden aşağıdaki komutları çalıştırmak yeterli olacaktır.
+
+```bash
+rgName=cgAppResourceGroup
+az group delete --name $rgName
+```
+
 [Kaynak](https://www.packtpub.com/product/adopting-net-5/9781800560567)
