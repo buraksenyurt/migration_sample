@@ -23,13 +23,20 @@ namespace ClassicGames.DAL
             if (gameReview.Id > 0 || gameReview.Game != null)
                 throw new DataException("Değerlendirme eklenemedi. Id 0 olmalı");
 
-            var game = GetById(id);
+            var game = GetGameById(id,context);
             if (game == null)
                 throw new DataException($"Üzgünüz. {id} numaralı oyunu bulamadık.");
 
             game.Reviews.Add(gameReview);
             context.SaveChanges();
             return gameReview;
+        }
+
+        public Game GetGameById(int? id,CommodoreDBContext context)
+        {
+            if (!id.HasValue)
+                return null;
+            return context.Games.Include(g => g.Reviews).FirstOrDefault(g => g.Id == id.Value);
         }
 
         public void Delete(int Id)
