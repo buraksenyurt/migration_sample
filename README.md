@@ -184,4 +184,67 @@ MVC WebClient uygulamasının .Net 5.0 platformuna evrilmesinin en iyi yolu sıf
 
 Bu değişikliklerden sonra WPF ve Web tarafındaki uygulamaların test edilmesi önerilir. Çalışıyorlarsa süper :)
 
+## Veritabanının Azure'a Alınması
+
+Sıradaki adımımız SQL veritabanını Azure üzerinden kullanmak. Kişisel Azure hesabımızla bir deneme yapabiliriz. Öncelikle [https://shell.azure.com](https://shell.azure.com) adresine gidilir Bash tipli terminal açılır. Aşağıdaki terminal komutları ile Azure SQL Database oluşturulur.
+
+```bash
+# İlk iş bir veri merkezini(data center) kullanan resourceGroup oluşturmak
+# Önce aşağıdaki gibi resourceGroupName ve location isimli değişkenleri tanımlayalım.
+rgName=cgAppResourceGroup
+# Bir azure data center seçmemiz gerekiyor. Güncel data center listesini aşağıdaki komutla çekebiliriz
+az account list-locations -o table
+# Ben germanywestcentral'ı seçtim
+location=germanywestcentral
+# Artık bu iki değişkeni kullanarak resource group'u oluşturabiliriz.
+# shell.Azure'da olduğumuz için Azure CLI aracı olan 'az' den yararlanacağız
+az group create --name $rgName --location $location
+```
+
+Buna göre aşağıdakine benzer bir sonuç elde etmeliyiz.,
+
+![screenshot_16.png](./assets/screenshot_16.png)
+
+```bash
+# SQL Server için username, password ve sunucu adı bilgilerini de bir değişken olarak tanımlayalım
+username=scotie
+password=t1ger_tanks
+serverName=burakselimSQLServer
+
+# Şimdi bu parametreleri kullanarak SQL sunucusunu oluşturalım
+az sql server create --name $serverName --resource-group $rgName --location $location --admin-user $username --admin-password $password
+```
+
+Eğer bir sorun çıkmazsa Azure SQL Server başarılı şekilde oluşur.
+
+![screenshot_17.png](./assets/screenshot_17.png)
+
+Sırada firewall için whitelist ayarlamaları var. Kendi IP adresimizi Azure tarafına ekletmemiz lazım. Çalıştığımız bilgisayar IP adresini [https://whatismyipaddress.com](https://whatismyipaddress.com) sitesinden öğrenebiliriz.
+
+```bash
+# ip değişkenlerimiz
+startipAddress=[ip adresiniz]
+endipAddress=[ip adresiniz]
+
+# Whitelist'e local IP mizi kaydetmek için aşağıdaki komutla ilerleyelim.
+az sql server firewall-rule create --resource-group $rgName --server $serverName -n DeveloperLocalIP --start-ip-address $startipAddress --end-ip-address $endipAddress
+
+# Bu da Azure servisleri için whitelist ayarı
+az sql server firewall-rule create --resource-group $rgName --server $serverName -n AzureServices --start-ip-address 0.0.0.0 --end-ip-address 0.0.0.0
+# Bu arada sunucu adındaki büyük harf kullanımı sorun çıkartabilir ki bende çıkarttı. Bu durumda sunucu adını Azure'un verdiği gibi küçük harfli olarak kullanmak gerekir.
+serverName=burakselimSQLServer
+```
+
+![screenshot_18.png](./assets/screenshot_18.png)
+
+```bash
+# Artık sunucu ve firewall izinleri hazır
+# Veritabanı oluşturulabilir
+az sql db create --resource-group $rgName --server $serverName --name CommodoreDB --service-objective Basic
+```
+
+Veritabanını başarılı şekilde oluşup oluşmadığını Azure portal'den görebiliriz.
+
+![screenshot_19.png](./assets/screenshot_19.png)
+
 [Kaynak](https://www.packtpub.com/product/adopting-net-5/9781800560567)
