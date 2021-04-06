@@ -299,9 +299,25 @@ ya da komut satırından _(Azure Shell)_ aşağıdaki şekilde.
 az webapp deployment list-publishing-profiles --name $appName --resource-group $rgName --xml --output tsv
 ```
 
+Profile dosyasını tahmin edileceği üzere projenin publish stratejisini belirlemek için kullanacağız. Bunun için ClassicGames.WebClient projesine sağ tıklayıp Publish seçeneğini kullanarak süreci başlatmalıyız.
 
+![screenshot_22.png](./assets/screenshot_22.png)
 
-___DEVAM EDECEK___
+![screenshot_23.png](./assets/screenshot_23.png)
+
+Sonuçta aşağıdakine benzer bir çıktık ile karşılaşmalıyız.
+
+![screenshot_24.png](./assets/screenshot_24.png)
+
+Sonrasında tek yapmamız gereken _Publish_ düğmesine basmak. Paket hazırlanıp, profile bilgilerine göre Azure tarafına deploy edilecektir.
+
+![screenshot_25.png](./assets/screenshot_25.png)
+
+Ardından Azure tarafındaki web uygulamasına giderek sistemin çalışıp çalışmadığını görebiliriz.
+
+![screenshot_26.png](./assets/screenshot_26.png)
+
+___Hatırlatmakta yarar var. Bir ihtimal veritabanını Azure tarafına migrate ettikten sonra bilgisayarı kapatmış olabilirsiniz. IP'niz statik değilse internete tekrar bağlandığınızda değişecektir. Bu durumda Firewall tarafındaki whitelist'e local IP nizi tekrar eklemeniz gerekir. local makineden Azure tarafına gidebilmek için bir tane ve Azure'daki App Service uygulamasından yine oradaki veritabanına ulaşmak için de bir tane olmak üzere toplamda iki işlem. Yukarıda bunları yapmıştık ;)___
 
 ## Azure Kaynaklarını Silme
 
