@@ -184,7 +184,7 @@ MVC WebClient uygulamasının .Net 5.0 platformuna evrilmesinin en iyi yolu sıf
 
 Bu değişikliklerden sonra WPF ve Web tarafındaki uygulamaların test edilmesi önerilir. Çalışıyorlarsa süper :)
 
-## Veritabanının Azure'a Alınması
+# Veritabanının Azure'a Alınması
 
 Sıradaki adımımız SQL veritabanını Azure üzerinden kullanmak. Kişisel Azure hesabımızla bir deneme yapabiliriz. Öncelikle [https://shell.azure.com](https://shell.azure.com) adresine gidilir Bash tipli terminal açılır. Aşağıdaki terminal komutları ile Azure SQL Database oluşturulur.
 
@@ -247,7 +247,7 @@ Veritabanını başarılı şekilde oluşup oluşmadığını Azure portal'den g
 
 ![screenshot_19.png](./assets/screenshot_19.png)
 
-### Local'den Azure'a Data Migration
+## Local'den Azure'a Data Migration
 
 Veritabanını oluşturduktan sonra local'deki veritabanı şemasını ve içeriğini taşıyabiliriz de. Bunun için [Microsoft Data Migration Assistant](https://www.microsoft.com/en-us/download/details.aspx?id=53595) aracından yararlanılabilir.
 Ancak Dashboard uygulaması üstünden Migration planı çalıştırıp Azure üzerinde veritabanı tablolarının oluşturulmasını ve ilk kayıtların eklenmesini de sağlayabiliriz. Bunun için Dashboard ve WebClient uygulamalarınının appSettings.json dosyalarındaki bağlantı bilgilerini Azure SQL veritabanını işaret edecek şekilde değiştirmemiz yeterlidir.
@@ -262,6 +262,46 @@ Server=tcp:burakselimsqlserver.database.windows.net,1433;Database=CommodoreDB;Us
 Sonrasında WebClient'ı çalıştırıp uygulamanın fonksiyonelliklerini test edebiliriz.
 
 ![screenshot_20.png](./assets/screenshot_20.png)
+
+## Web Uygulamasının Azure App Service olarak Taşınması
+
+Bu adımda ClassicGamesAzure solution'ı içerisindeki WebClient'ı, Azure tarafına taşıyacağız. Yine Azure Shell'i kullanabiliriz.
+
+```bash
+# ilk olarak bir Azure Service Plan oluşturalım.
+# Azure Service Plan bir veya daha çok web uygulamasını barındırabilir ve bunların tamamı aynı fiziksel kaynakları kullanır.
+# Örneğimiz için Free Tier planının (F1) kullanabiliriz.
+
+# Gerekli değişkenler
+planName=cgServicePlan
+appName=buraksc64world
+
+# Plan oluşturluyor
+az appservice plan create --name $planName --resource-group $rgName --sku F1
+
+# Web uygulaması oluşturuluyor
+az webapp create --resource-group $rgName --plan $planName --name $appName
+
+# Örneğimiz .Net 5 çalışma zamanını gerektiriyor. Kullanılabilecek runtime listesine bir bakalım.
+az webapp list-runtimes
+# Kuvvetle muhtemel .Net 5 çalışma zamanı orada olacaktır. Devam edebiliriz.
+```
+
+Azure tarafında web uygulaması için bir plan, bir uygulama ve çalışma zamanını oluşturduk. Peki makinedeki uygulamayı buraya nasıl publish edeceğiz. Visual Studio'un Publish Profile özelliğini bu anlamda işimizi epeyce kolaylaştıracaktır.
+
+Bunu iki şekilde yapabiliriz. Azure Portal üstündeki Get publish Profile seçeneğiyle
+
+ya da komut satırından _(Azure Shell)_ aşağıdaki şekilde.
+
+![screenshot_21.png](./assets/screenshot_21.png)
+
+```bash
+az webapp deployment list-publishing-profiles --name $appName --resource-group $rgName --xml --output tsv
+```
+
+
+
+___DEVAM EDECEK___
 
 ## Azure Kaynaklarını Silme
 
