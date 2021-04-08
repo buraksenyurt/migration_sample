@@ -319,7 +319,73 @@ Ardından Azure tarafındaki web uygulamasına giderek sistemin çalışıp çal
 
 ___Hatırlatmakta yarar var. Bir ihtimal veritabanını Azure tarafına migrate ettikten sonra bilgisayarı kapatmış olabilirsiniz. IP'niz statik değilse internete tekrar bağlandığınızda değişecektir. Bu durumda Firewall tarafındaki whitelist'e local IP nizi tekrar eklemeniz gerekir. local makineden Azure tarafına gidebilmek için bir tane ve Azure'daki App Service uygulamasından yine oradaki veritabanına ulaşmak için de bir tane olmak üzere toplamda iki işlem. Yukarıda bunları yapmıştık ;)___
 
-## Azure Kaynaklarını Silme
+# Uygulamaya Azure Function Eklenmesi
+
+Kitap gerçekten çok güzel örnekler içeriyor. Başlangıçta .Net Framework 4.7.2 sürümünde olan çözüm içindeki uygulamaları .Net 5 uyumlu hale getirdikten sonra, veritabanı ve web tarafını Azure üzerine de almayı öğretti. Sıradaki adım ise HTTP ile tetiklenebilen bir Azure Function geliştirip bunu Web uygulamasından kullandırmak. Serverless olarak anlam bulan bu Azure Function'ın kitaptaki görevi yorumların duygu analizini simüle etmek. Anladığım kadarıyla hedefimiz yeni bir yorum eklendiğinde tetiklenecek Azure fonksiyon ile bu yorumun pozitif olup olmadığını tespit etmek. Benzer şekilde ilerleyeceğim.
+
+Azure Function'ı geliştirmek için bu kez Azure Functions Core Tools'u kullanmaya karar verdim. [Şu adrese uğrayarak](https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local?tabs=windows%2Ccsharp%2Cbash#install-the-azure-functions-core-tools) Windows 10 için olan kurulumunu yaptım.
+
+```bash
+cd ClassicGamesAzure
+# Azure Function Projesinin oluşturulması
+func init Analysis --dotnet
+
+# Projenin, solution'a eklenmesi
+dotnet sln add .\Analysis\
+
+# HTTP ile tetiklenecek fonksiyonun eklenmesi
+cd Analysis
+func new --name AlienistFunction --template "HTTP trigger" --authlevel "anonymous"
+
+# Eğer istersek şu noktada fonkisyonun ilk halini, localde çalışacak şekilde test edebiliriz
+func start
+```
+
+![screenshot_27.png](./assets/screenshot_27.png)
+
+Tabii bu Hello World modeli. Şimdi neler yaptığımıza bakalım.
+
+- Duygu durum analizi yapan servisi ekledik _(IAlienistService sözleşmesi, uygulayan AlienistService sınıfı ve duygu durumunu belirten Report isimli Enum sabiti)_
+- Yukarıdaki servisi DI ile almak için projeye Microsoft.Azure.Functions.Extensions nuget paketini ekledik.
+  - ___dotnet add package Microsoft.Azure.Functions.Extensions___
+- DI mekanizmasını fonksiyon başlatılırken kullanmamız gerekiyor. Bu nedenle FunctionStartup türevli bir Startup sınıfı ekleniyor. _(FunctionsStartup nitelik kullanımı ve sınıf türetmesine dikkat edin. Birde DI uygulanışına tabii)_
+- AlienistFunction içerisindeki Run fonksiyonunu da, AlienistService'i kullanacak şekilde değiştirdik.
+
+## Local Testler
+
+Şu anda servisi local ortamda çalıştırıp hem url üstünden hem de Postman gibi bir araçla JSON içeriği göndererekten test edebiliriz. Uygulamayı komut satırından _func start_ ile çalıştırabileceğimiz gibi, Visual Studio ile de başlatabiliriz. Visual Studio ile çalıştırma seçilirse ilk seferde sistemde yoksa Azure Emulator ve gerekli SDK lar indirilir. Bu da biraz zaman alabilir. Lakin Visual Studio üstünden uygulamayı Debug etmek ve kodun işleyişini görmek de oldukça keyifli.
+
+```text
+# url testi için HTTP Get ile şunları deneyebiliriz
+http://localhost:7071/api/AlienistFunction?content=Bugün güzel, nefis bir gün.
+http://localhost:7071/api/AlienistFunction?content=Ne kadar iğrenç bir gündü yahu.
+```
+
+Bu iki çağrı için aşağıdaki sonuçları elde etmeliyiz.
+
+![screenshot_28.png](./assets/screenshot_28.png)
+
+![screenshot_29.png](./assets/screenshot_29.png)
+
+Postman'den HTTP Post ile JSON içeriğini aşağıdaki gibi Body üstünden göndererek de ilerleyebiliriz. Yani hem HTTP Get ile hem de HTTP Post ile Azure fonksiyonumuzu tetiklememiz mümkün.
+
+```json
+{
+    "commentText": "Bugün çok güzel bir gün öyle değil mi? Dün çok kötü geçmişti ama bugün her şey yoluna girdi. Kendimi olağanüstü iyi hissediyorum."
+}
+```
+
+![screenshot_30.png](./assets/screenshot_30.png)
+
+## Azure Function için Deploy İşlemleri
+
+_YAPILACAK_
+
+## Azure Function Uygulamasının Web Uygulamasına Entegre Edilmesi
+
+_YAPILACAK_
+
+# Azure Kaynaklarını Silmek İçin
 
 Her ne kadar deneysel bir çalışma olsa da kaynakları temizlemekte yarar var. Bunun için Azure Shell üstünden aşağıdaki komutları çalıştırmak yeterli olacaktır.
 

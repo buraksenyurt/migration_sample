@@ -7,8 +7,8 @@ namespace Analysis
     public class AlienistService
         : IAlienistService
     {
-        private readonly ILogger _logger;
-        public AlienistService(ILogger logger)
+        private readonly ILogger<AlienistService> _logger;
+        public AlienistService(ILogger<AlienistService> logger)
         {
             _logger = logger;
         }
