@@ -379,7 +379,72 @@ Postman'den HTTP Post ile JSON içeriğini aşağıdaki gibi Body üstünden gö
 
 ## Azure Function için Deploy İşlemleri
 
-_YAPILACAK_
+Aslında ClassicGames.WebClient uygulamasının Azure platformuna taşınmasına nispeten benzer adımlarımız var. İlk önce bir storage account açacağız. Ardından Azure üstünde Function App oluşturup Publish işlemi için Profile dosyasını çekeceğiz. Local'deki uygulamamıza ilgili profili yükledikten sonra uygulamayı deploy edip test edeceğiz. 
+
+Storage Account açılması, function app oluşturulması gibi işlemleri yine Azure Shell üstünden yapabiliriz.
+
+```bash
+# yukarıda tanımlı resource group ve location bilgilerini burada da kullanıyoruz.
+# rgName için cgAppResourceGroup ve location için germanywestcentral tanımlamalarını kullanmıştım
+storageAccount=cgappstorageaccount
+az storage account create -n $storageAccount -g $rgName -l $location --sku Standard_LRS
+
+# Function App'ın oluşturulması
+funcName=AnalystC64Fcuntion
+az functionapp create --consumption-plan-location $location -n $funcName --os-type Windows -g$rgName --runtime dotnet --storage-account $storageAccount --functions-version 3
+``` 
+
+Eğer işler yolunda gittiyse ilgili fonksiyonun aşağıdakine benzer şekilde oluşması gerekir.
+
+![screenshot_31.png](./assets/screenshot_31.png)
+
+Şimdi local bilgisayarımızdaki Azure Function'ı deploy etmek gibi bir amacımız var. Öncesinden Publish Profile içeriğini almalı, bunu Web uygulamasında yaptığımız gibi Import ederek uygulamayı taşımalıyız.
+
+Profile içeriğinin çekilmesi.
+![screenshot_32.png](./assets/screenshot_32.png)
+
+Analysis projesinde sağ tıklayıp Publish denilmesi ve Import seçimi.
+![screenshot_33.png](./assets/screenshot_33.png)
+
+Dosya seçimi sonrası, Publish işleminin yapılması.
+![screenshot_34.png](./assets/screenshot_34.png)
+
+Sonuçta dağıtımın başarılı olmasını bekliyoruz.
+![screenshot_35.png](./assets/screenshot_35.png)
+
+Benim kendi denememde fonksiyonum http://analystc64fcuntion.azurewebsites.net adresinden erişilebilir hale geldi. Tabii bunu local'de yaptığımız gibi test etmemiz de gerekiyor. Postman'i bu amaçla kullanabiliriz, lakin öncesinde bu fonksiyonu kullanabilmemiz için gerekli Authentication Key'in elde edilmesi lazım.
+
+```bash
+# Fonksiyonun kullanılabilmesi için authentication key değerinin alınması
+functionName=AlienistFunction # Bu Uygulamadaki fonksiyonumuzun adıydı
+az functionapp function keys list -g $rgName -n $funcName --function-name $functionName
+```
+
+![screenshot_36.png](./assets/screenshot_36.png)
+
+Buradaki key değerini kullanarak URL'i yeniden organize edip testlerimizi yapabiliriz. Sadece Azure tarafından verilen adres ve authentication key değerlerini kullanmamız yeterli. Key değerini QueryString'de code parametresi ile taşıyoruz.
+
+```text
+# url testi için HTTP Get ile şunları deneyebiliriz
+http://analystc64fcuntion.azurewebsites.net/api/AlienistFunction?code=[Sizin için üretilen key değeri olmalı]&content=Bugün harika bir gün.
+http://analystc64fcuntion.azurewebsites.net/api/AlienistFunction?code=[Sizin için üretilen key değeri olmalı]&content=Ne kadar iğrenç bir gündü yahu.
+```
+
+Yukarıdaki denemelerden birisine ait çıktı aşağıdaki gibi olacaktır. 
+
+![screenshot_37.png](./assets/screenshot_37.png)
+
+Yine aynı adresi, code isimli querystring parametresi ve aşağıdaki JSON içeriği ile kullanabiliriz.
+
+```json
+{
+    "commentText": "Bugün çok güzel bir gün öyle değil mi? Dün çok kötü geçmişti ama bugün her şey yoluna girdi. Kendimi olağanüstü iyi hissediyorum."
+}
+```
+
+Sonuç aşağıdaki ekran görüntüsündekine benzer olmalıdır.
+
+![screenshot_38.png](./assets/screenshot_38.png)
 
 ## Azure Function Uygulamasının Web Uygulamasına Entegre Edilmesi
 
