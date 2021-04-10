@@ -1,4 +1,4 @@
-using ClassicGames.DAL;
+﻿using ClassicGames.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
@@ -23,6 +23,14 @@ namespace ClassicGames.WebClient
         {
             services.AddControllersWithViews();
             services.LoadDb(Configuration.GetConnectionString("CommodoreDB"));
+
+            /*
+            Azure fonksiyonunu kullanmak için gerekli konfigurasyon ayarlarını appSettings.json içerisinden okuyacağız.
+            Buradaki json bölümünü AlienistServiceSettings sınıfına bağlamak için aşağıdaki kod parçasını kullanıyoruz.
+             */
+            var alienistServiceSettings = new AlienistServiceSettings();
+            Configuration.GetSection("AlienistServiceSettings").Bind(alienistServiceSettings);
+            services.AddSingleton(alienistServiceSettings);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
