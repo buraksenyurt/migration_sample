@@ -448,10 +448,17 @@ Sonuç aşağıdaki ekran görüntüsündekine benzer olmalıdır.
 
 ## Azure Function Uygulamasının Web Uygulamasına Entegre Edilmesi
 
-Şimdiki amaç oyunlarla ilgili yorum eklenen sayfada girilen metnin pozitif olup olmadığını anlamak için yukarıda geliştirdiğimiz Azure fonksiyonunu kullanmak. Bu amaçla,
+Şimdiki amaç oyunlarla ilgili yorum eklenen sayfada girilen metnin pozitif olup olmadığını anlamak için yukarıda geliştirdiğimiz Azure fonksiyonunu kullanmak. Basit olması açısından bir yorum eklendiğinde veya var olan yorum güncellendiğinde, duygu analizini yapacak Azure fonksiyonu çağırıp, sonucunu GameReview tablosuna yeni eklediğimiz CommentScore alanına yazdıracağız. Yapacağımız değişiklikler şöyle.
 
 - appSettings.json içerisine servise ait konfigurasyon bilgilerini ekledik. Ayrıca konfigurasyon sekmesini kod tarafında karşılamak için bir sınıf gerekiyor _(AlienistServiceOptions.cs)_ Sınıf ile json bölümünü Startup.cs içerisindeki ConfigureServices metodunda ilişkilendiriyoruz.
 - GameReviewController sınıfına, yorumun içeriğini değerlendirecek servis çağrısını yapması için AnalyzeComment isimli bir metot eklendi.
+- GameReview tipinde CommentScore isimli yeni alanın kullanılması için gerekli değişiklikler yapıldı.
+
+Çalışma zamanında en azından tablodaki CommentScore alanındaki değişimleri görebilyor olmamız lazım.
+
+![screenshot_39.png](./assets/screenshot_39.png)
+
+Elbette bu tam anlamıyla gerçek hayat senaryosu değil. Azure Func'ın çağırılması sırasındaki olası gecikmeler sayfanın cevap verebilirliğini olumsuz yönde etkileyebilir. Belki de comment'leri asenkron çağrı ile gönderdiğimiz Azure Fonkisyonu bu hesaplamayı bir olay ile ilişkilendirip RabbitMQ kuyruğuna bırakmalı. Burayı dinleyen başka bir Worker Service'te ilgili olay meydana geldiğinde asıl değişikliği uzak veritabanına doğru yapmalı. Bunun gibi bir kurgu çok daha yerinde olabilir.
 
 # Azure Kaynaklarını Silmek İçin
 
