@@ -11,5 +11,6 @@ namespace ClassicGames.Models
         public string Review { get; set; }
         [Required]
         public string User { get; set; }
+        public int CommentScore { get; set; }
     }
 }

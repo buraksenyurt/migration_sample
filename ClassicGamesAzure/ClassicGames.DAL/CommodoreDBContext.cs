@@ -64,7 +64,8 @@ namespace ClassicGames.DAL
                 Id=1,
                 User = "Retro Baba",
                 Rating = 8,
-                Review = "Çocukluğumun en güzel oyunlarından birisidir."
+                Review = "Çocukluğumun en güzel oyunlarından birisidir.",
+                CommentScore=1
             });
             modelBuilder.Entity<GameReview>().HasData(new
             {
@@ -72,7 +73,8 @@ namespace ClassicGames.DAL
                 Id = 2,
                 User = "Baracuda 1234",
                 Rating = 7,
-                Review = "Çocukluk arkadaşımla başında saatler geçirdiğimiz oyundur."
+                Review = "Çocukluk arkadaşımla başında saatler geçirdiğimiz oyundur.",
+                CommentScore = 0
             });
             modelBuilder.Entity<GameReview>().HasData(new
             {
@@ -80,7 +82,8 @@ namespace ClassicGames.DAL
                 Id = 3,
                 User = "Gold Gamer",
                 Rating = 9,
-                Review = "Ah o posta kutusuna her seferinde aldanıp çarpardım. Sırf bu oyun için eski bir Commodore bulup satın aldım ve kurdum. Düşün bi, 37 ekran TV, kaset çalar, anten girişi, kafa ayarı..."
+                Review = "Ah o posta kutusuna her seferinde aldanıp çarpardım. Sırf bu oyun için eski bir Commodore bulup satın aldım ve kurdum. Düşün bi, 37 ekran TV, kaset çalar, anten girişi, kafa ayarı...",
+                CommentScore = 0
             });
         }
     }

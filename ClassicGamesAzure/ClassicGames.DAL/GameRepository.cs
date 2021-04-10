@@ -111,6 +111,7 @@ namespace ClassicGames.DAL
             gameReviewDb.User = gameReview.User;
             gameReviewDb.Review = gameReview.Review;
             gameReviewDb.Rating = gameReview.Rating;
+            gameReviewDb.CommentScore = gameReview.CommentScore;
             context.SaveChanges();
             return gameReviewDb;
         }
