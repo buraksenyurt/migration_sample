@@ -23,7 +23,7 @@ namespace ClassicGames.DAL
             if (gameReview.Id > 0 || gameReview.Game != null)
                 throw new DataException("Değerlendirme eklenemedi. Id 0 olmalı");
 
-            var game = GetGameById(id,context);
+            var game = GetGameById(id, context);
             if (game == null)
                 throw new DataException($"Üzgünüz. {id} numaralı oyunu bulamadık.");
 
@@ -32,7 +32,7 @@ namespace ClassicGames.DAL
             return gameReview;
         }
 
-        public Game GetGameById(int? id,CommodoreDBContext context)
+        public Game GetGameById(int? id, CommodoreDBContext context)
         {
             if (!id.HasValue)
                 return null;
@@ -93,10 +93,21 @@ namespace ClassicGames.DAL
                 .FirstOrDefault(g => g.Id == id.Value);
         }
 
+        public GameReview GetReviewById(int? id, CommodoreDBContext context)
+        {
+            if (!id.HasValue)
+                return null;
+
+            return context
+                .GameReviews
+                .Include(g => g.Game)
+                .FirstOrDefault(g => g.Id == id.Value);
+        }
+
         public GameReview UpdateReview(GameReview gameReview)
         {
             using var context = new CommodoreDBContext(_dbContextOptions);
-            var gameReviewDb = GetReviewById(gameReview.Id);
+            var gameReviewDb = GetReviewById(gameReview.Id, context);
             gameReviewDb.User = gameReview.User;
             gameReviewDb.Review = gameReview.Review;
             gameReviewDb.Rating = gameReview.Rating;
