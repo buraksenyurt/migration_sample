@@ -448,7 +448,10 @@ Sonuç aşağıdaki ekran görüntüsündekine benzer olmalıdır.
 
 ## Azure Function Uygulamasının Web Uygulamasına Entegre Edilmesi
 
-_YAPILACAK_
+Şimdiki amaç oyunlarla ilgili yorum eklenen sayfada girilen metnin pozitif olup olmadığını anlamak için yukarıda geliştirdiğimiz Azure fonksiyonunu kullanmak. Bu amaçla,
+
+- appSettings.json içerisine servise ait konfigurasyon bilgilerini ekledik. Ayrıca konfigurasyon sekmesini kod tarafında karşılamak için bir sınıf gerekiyor _(AlienistServiceOptions.cs)_ Sınıf ile json bölümünü Startup.cs içerisindeki ConfigureServices metodunda ilişkilendiriyoruz.
+- GameReviewController sınıfına, yorumun içeriğini değerlendirecek servis çağrısını yapması için AnalyzeComment isimli bir metot eklendi.
 
 # Azure Kaynaklarını Silmek İçin
 
