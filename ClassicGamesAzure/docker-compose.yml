@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  classicgames.webclient:
+    image: ${DOCKER_REGISTRY-}classicgameswebclient
+    build:
+      context: .
+      dockerfile: ClassicGames.WebClient/Dockerfile

@@ -469,4 +469,13 @@ rgName=cgAppResourceGroup
 az group delete --name $rgName
 ```
 
+## Docker Compose Desteğinin Eklenmesi
+
+Visual Studio gibi bir ortamda geliştirme yapıyorsak DockerFile oluşturulması veya Docker Compose ortamının hazırlanması son derece kolaydır. Örneğin Docker Compose desteğini eklemek istersek, projeye sağ tıkladıktan sonra __Add -> Container Orchestrator Support__ adımını seçip, __Target OS__ olarak da __Linux__ tarafını işaretlemek yeterli olacaktır. Visual Studio gerekli docker-compose.yaml dosyasını otomatik olarak üretir ve imajları da otomatik olarak yükler. Sonrasında docker-compose seçeneği ile projeyi başlatabiliriz.
+
+![screenshot_40.png](./assets/screenshot_40.png)
+
+Aşağıdaki ekran görüntüsünden de görüleceği üzere web uygulaması Docker Container olarak ayağa kalkmış ve çalışır haldedir. Birden fazla servisimin olduğu durumlarda Docker-compose işimizi kolayşatıracaktır. Neredeyse sıfır efor sarf ettiğimizi ifade edebilirim. Tabii birde Project Tye tarafına bakmanızda yarar olabilir ;)
+![screenshot_41.png](./assets/screenshot_41.png)
+
 [Kaynak](https://www.packtpub.com/product/adopting-net-5/9781800560567)
